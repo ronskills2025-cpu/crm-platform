@@ -1,0 +1,11 @@
+{
+  "name": "crm-api",
+  "version": "3.0.0",
+  "description": "CRM API server — modular entry point",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p ../../../tsconfig.server.json",
+    "start": "node dist/apps/api/src/server.js"
+  }
+}

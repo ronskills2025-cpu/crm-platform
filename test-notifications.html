@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Notifications</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react-hot-toast@2.4.1/dist/index.umd.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script>
+        const { useState } = React;
+        const { toast, Toaster } = window.reactHotToast;
+
+        function TestApp() {
+            return React.createElement('div', { style: { padding: '20px' } }, [
+                React.createElement('h1', { key: 'title' }, 'Notification Test'),
+                React.createElement('button', {
+                    key: 'success',
+                    onClick: () => toast.success('Success notification!'),
+                    style: { margin: '10px', padding: '10px 20px', backgroundColor: 'green', color: 'white', border: 'none', borderRadius: '5px' }
+                }, 'Test Success'),
+                React.createElement('button', {
+                    key: 'error',
+                    onClick: () => toast.error('Error notification!'),
+                    style: { margin: '10px', padding: '10px 20px', backgroundColor: 'red', color: 'white', border: 'none', borderRadius: '5px' }
+                }, 'Test Error'),
+                React.createElement('button', {
+                    key: 'info',
+                    onClick: () => toast('Info notification!'),
+                    style: { margin: '10px', padding: '10px 20px', backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px' }
+                }, 'Test Info'),
+                React.createElement(Toaster, { key: 'toaster', position: 'top-right' })
+            ]);
+        }
+
+        ReactDOM.render(React.createElement(TestApp), document.getElementById('root'));
+    </script>
+</body>
+</html>
