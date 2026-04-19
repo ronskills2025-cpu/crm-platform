@@ -94,6 +94,11 @@ import { AdminController } from '../../../modules/users/backend/admin.controller
 import botRoutes from '../../../modules/bot-manager/backend/bot.routes';
 import { runBotMigration } from '../../../modules/bot-manager/backend/bot-migrate';
 
+// Compliance & Legal (BSP Requirements)
+import { complianceRoutes } from '../../../modules/compliance/backend/compliance.routes';
+import { legalRoutes } from '../../../modules/legal/backend/legal.routes';
+import { runComplianceMigration } from '../../../modules/compliance/backend/compliance-migrate';
+
 const log = createLogger('server');
 const app = express();
 const server = http.createServer(app);
@@ -304,6 +309,10 @@ app.use('/api/wa-chat', waChatRoutes);
 // ── Payments ──────────────────────────────────────────────────────
 app.use('/api/qr-payment', qrPaymentRoutes);
 
+// ── Compliance & Legal (BSP Requirements) ────────────────────
+app.use('/api/compliance', complianceRoutes);
+app.use('/legal', legalRoutes);
+
 // ── Public webhooks ───────────────────────────────────────────────
 app.get('/webhook/whatsapp', AdminController.verifyWebhookChallenge);
 
@@ -375,6 +384,7 @@ async function start() {
     ['wa-chat', waChatMigrate],
     ['leads-v2', leadsMigrateV2],
     ['bot-manager', runBotMigration],
+    ['compliance', runComplianceMigration],
   ] as const;
 
   for (const [name, fn] of migrations) {

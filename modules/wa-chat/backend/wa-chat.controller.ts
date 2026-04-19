@@ -11,6 +11,7 @@ import {
 import { publishEvent } from '../../../packages/db/src/redis';
 import { query } from '../../../packages/db/src/connection';
 import { createLogger } from '../../../packages/utils/src/logger';
+import { ComplianceService } from '../../compliance/backend/compliance.service';
 
 const log = createLogger('ctrl:wa-chat');
 
@@ -554,6 +555,26 @@ export class WaChatController {
         });
       }
 
+      // 🔒 META COMPLIANCE CHECK - Validate message before sending
+      const complianceCheck = await ComplianceService.validateMessage({
+        tenantId: req.tenantId!,
+        phoneNumber: phone,
+        messageType: 'text',
+        messageContent: message
+      });
+
+      if (!complianceCheck.approved) {
+        return res.status(400).json({
+          error: 'Message blocked by compliance system',
+          details: complianceCheck.reason,
+          compliance_info: {
+            message: 'This message violates Meta WhatsApp Business Platform policies',
+            action_required: 'Please ensure you have explicit opt-in consent and follow content guidelines',
+            help_url: '/legal/acceptable-use-policy'
+          }
+        });
+      }
+
       log.info('Starting WhatsApp test message', { 
         phone: phone.substring(0, 5) + '***', 
         tenantId: req.tenantId,
@@ -575,12 +596,23 @@ export class WaChatController {
           messageId: msg.wa_message_id,
           conversationId: conversation.id
         });
+
+        // 📊 LOG MESSAGE FOR COMPLIANCE AUDIT
+        await ComplianceService.logMessage({
+          tenantId: req.tenantId!,
+          phoneNumber: phone,
+          messageType: 'text',
+          messageContent: message,
+          optInVerified: complianceCheck.approved,
+          complianceStatus: 'approved'
+        });
         
         res.json({ 
           success: true, 
           message: msg, 
           conversation_id: conversation.id,
-          details: 'Test message sent successfully! Check your WhatsApp chat interface.'
+          details: 'Test message sent successfully! Check your WhatsApp chat interface.',
+          compliance_status: 'approved'
         });
       } catch (sendError: any) {
         log.error('WhatsApp API send failed', { error: String(sendError) });
