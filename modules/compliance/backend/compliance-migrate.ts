@@ -189,11 +189,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Triggers for updated_at
+-- Triggers for updated_at (with IF NOT EXISTS equivalent)
+DROP TRIGGER IF EXISTS trigger_opt_in_updated_at ON opt_in_records;
 CREATE TRIGGER trigger_opt_in_updated_at
   BEFORE UPDATE ON opt_in_records
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS trigger_compliance_settings_updated_at ON compliance_settings;
 CREATE TRIGGER trigger_compliance_settings_updated_at
   BEFORE UPDATE ON compliance_settings
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

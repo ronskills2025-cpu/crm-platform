@@ -99,6 +99,9 @@ import { complianceRoutes } from '../../../modules/compliance/backend/compliance
 import { legalRoutes } from '../../../modules/legal/backend/legal.routes';
 import { runComplianceMigration } from '../../../modules/compliance/backend/compliance-migrate';
 
+// Onboarding & User Experience
+import { onboardingRoutes } from '../../../modules/onboarding/backend/onboarding.routes';
+
 const log = createLogger('server');
 const app = express();
 const server = http.createServer(app);
@@ -312,6 +315,9 @@ app.use('/api/qr-payment', qrPaymentRoutes);
 // ── Compliance & Legal (BSP Requirements) ────────────────────
 app.use('/api/compliance', complianceRoutes);
 app.use('/legal', legalRoutes);
+
+// ── Onboarding & User Experience ─────────────────────────────
+app.use('/onboarding', onboardingRoutes);
 
 // ── Public webhooks ───────────────────────────────────────────────
 app.get('/webhook/whatsapp', AdminController.verifyWebhookChallenge);

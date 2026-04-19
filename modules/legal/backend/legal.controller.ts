@@ -5,6 +5,7 @@
  */
 
 import { Request, Response } from 'express';
+import { PRIVACY_POLICY_HTML } from './privacy-policy-production';
 
 export class LegalController {
   
@@ -13,143 +14,8 @@ export class LegalController {
    * GET /legal/privacy-policy
    */
   static async privacyPolicy(req: Request, res: Response) {
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - WhatsApp Business Platform</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; color: #333; }
-        h1 { color: #1a73e8; border-bottom: 2px solid #1a73e8; padding-bottom: 10px; }
-        h2 { color: #1a73e8; margin-top: 30px; }
-        .last-updated { background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
-        .contact-info { background: #e8f5e8; padding: 15px; border-radius: 5px; margin-top: 20px; }
-    </style>
-</head>
-<body>
-    <h1>Privacy Policy</h1>
-    
-    <div class="last-updated">
-        <strong>Last Updated:</strong> ${new Date().toLocaleDateString()}
-    </div>
-
-    <h2>1. Introduction</h2>
-    <p>This Privacy Policy describes how our WhatsApp Business Platform ("we," "our," or "us") collects, uses, and protects your information when you use our services. We are committed to protecting your privacy and ensuring compliance with Meta WhatsApp Business Platform policies.</p>
-
-    <h2>2. Information We Collect</h2>
-    
-    <h3>2.1 Information You Provide</h3>
-    <ul>
-        <li><strong>Account Information:</strong> Name, email address, phone number, business information</li>
-        <li><strong>WhatsApp API Credentials:</strong> Phone number ID, access tokens (encrypted)</li>
-        <li><strong>Message Content:</strong> Messages sent and received through our platform</li>
-        <li><strong>Contact Information:</strong> Phone numbers and names of your WhatsApp contacts</li>
-    </ul>
-
-    <h3>2.2 Information Automatically Collected</h3>
-    <ul>
-        <li><strong>Usage Data:</strong> How you interact with our platform</li>
-        <li><strong>Log Data:</strong> IP addresses, browser type, access times</li>
-        <li><strong>Device Information:</strong> Device type, operating system, browser version</li>
-        <li><strong>Cookies:</strong> Session cookies for authentication and functionality</li>
-    </ul>
-
-    <h2>3. How We Use Your Information</h2>
-    <ul>
-        <li><strong>Service Provision:</strong> To provide and maintain our WhatsApp messaging services</li>
-        <li><strong>Communication:</strong> To send you service-related notifications and updates</li>
-        <li><strong>Compliance:</strong> To ensure compliance with Meta WhatsApp Business policies</li>
-        <li><strong>Security:</strong> To protect against fraud, abuse, and security threats</li>
-        <li><strong>Analytics:</strong> To improve our services and user experience</li>
-        <li><strong>Legal Compliance:</strong> To comply with applicable laws and regulations</li>
-    </ul>
-
-    <h2>4. WhatsApp Integration & Meta Compliance</h2>
-    <p>Our platform integrates with Meta's WhatsApp Business API. We ensure:</p>
-    <ul>
-        <li><strong>Opt-in Compliance:</strong> All messages require explicit user consent</li>
-        <li><strong>Data Security:</strong> WhatsApp credentials are encrypted and securely stored</li>
-        <li><strong>Message Logging:</strong> We maintain audit logs for compliance purposes</li>
-        <li><strong>No Spam:</strong> We prevent unsolicited messaging and enforce content policies</li>
-    </ul>
-
-    <h2>5. Data Sharing and Disclosure</h2>
-    <p>We do not sell your personal information. We may share information in these circumstances:</p>
-    <ul>
-        <li><strong>With Your Consent:</strong> When you explicitly authorize sharing</li>
-        <li><strong>Service Providers:</strong> With trusted third parties who assist in service delivery</li>
-        <li><strong>Legal Requirements:</strong> When required by law or to protect rights and safety</li>
-        <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales</li>
-        <li><strong>Meta/WhatsApp:</strong> As required for WhatsApp Business API functionality</li>
-    </ul>
-
-    <h2>6. Data Security</h2>
-    <p>We implement industry-standard security measures:</p>
-    <ul>
-        <li>End-to-end encryption for sensitive data</li>
-        <li>Secure data transmission (HTTPS/TLS)</li>
-        <li>Regular security audits and monitoring</li>
-        <li>Access controls and authentication</li>
-        <li>Data backup and recovery procedures</li>
-    </ul>
-
-    <h2>7. Data Retention</h2>
-    <ul>
-        <li><strong>Account Data:</strong> Retained while your account is active</li>
-        <li><strong>Message Data:</strong> Retained for 90 days unless longer retention is required</li>
-        <li><strong>Compliance Logs:</strong> Retained for 2 years for audit purposes</li>
-        <li><strong>Opt-in Records:</strong> Retained indefinitely for compliance verification</li>
-    </ul>
-
-    <h2>8. Your Rights</h2>
-    <p>You have the right to:</p>
-    <ul>
-        <li><strong>Access:</strong> Request copies of your personal information</li>
-        <li><strong>Correction:</strong> Request correction of inaccurate information</li>
-        <li><strong>Deletion:</strong> Request deletion of your personal information</li>
-        <li><strong>Portability:</strong> Request transfer of your data to another service</li>
-        <li><strong>Opt-out:</strong> Unsubscribe from marketing communications</li>
-        <li><strong>Complaint:</strong> Lodge complaints with data protection authorities</li>
-    </ul>
-
-    <h2>9. International Data Transfers</h2>
-    <p>Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place for international transfers, including:</p>
-    <ul>
-        <li>Standard Contractual Clauses (SCCs)</li>
-        <li>Adequacy decisions by relevant authorities</li>
-        <li>Certification schemes and codes of conduct</li>
-    </ul>
-
-    <h2>10. Children's Privacy</h2>
-    <p>Our services are not intended for individuals under 16 years of age. We do not knowingly collect personal information from children under 16. If we become aware of such collection, we will delete the information immediately.</p>
-
-    <h2>11. Changes to This Policy</h2>
-    <p>We may update this Privacy Policy periodically. We will notify you of material changes by:</p>
-    <ul>
-        <li>Posting the updated policy on our platform</li>
-        <li>Sending email notifications to registered users</li>
-        <li>Displaying prominent notices on our website</li>
-    </ul>
-
-    <div class="contact-info">
-        <h2>12. Contact Information</h2>
-        <p>For questions about this Privacy Policy or our data practices, contact us at:</p>
-        <ul>
-            <li><strong>Email:</strong> privacy@yourcompany.com</li>
-            <li><strong>Address:</strong> [Your Business Address]</li>
-            <li><strong>Phone:</strong> [Your Contact Number]</li>
-        </ul>
-        <p><strong>Data Protection Officer:</strong> dpo@yourcompany.com</p>
-    </div>
-
-    <p><em>This Privacy Policy is designed to comply with GDPR, CCPA, and Meta WhatsApp Business Platform requirements.</em></p>
-</body>
-</html>`;
-
     res.setHeader('Content-Type', 'text/html');
-    res.send(html);
+    res.send(PRIVACY_POLICY_HTML);
   }
 
   /**
